@@ -287,4 +287,4 @@ def get_mask(center_points_list, oss):
 if __name__ == '__main__':
     save_dir = "/mnt/ve_perception/likaiying/opendataset/sandbox/haomodata"
     data_path = "/mnt/ve_perception/likaiying/opendataset/sandbox/lanedata_6v_30/curve/curve/curve.txt"
-    main(data_path, save_dir, num=18)
+    main(data_path, save_dir, num=250000)
