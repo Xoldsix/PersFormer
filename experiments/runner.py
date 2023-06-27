@@ -276,7 +276,7 @@ class Runner:
             # loss terms need to be all reduced, eval_stats need to be all gather
             # Do them all in validate
             if args.model_name == "PersFormer":
-                loss_valid_list, eval_stats = self.validate(model, epoch=epoch, vis=True)  # ===================================================vis=False
+                loss_valid_list, eval_stats = self.validate(model, epoch=epoch, vis=False)  # ===================================================vis=False
             else:
                 loss_valid_list, eval_stats = self.validate(model1, model2, epoch, vis=False)
 

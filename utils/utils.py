@@ -87,7 +87,7 @@ def define_args():
     parser.add_argument('--vis_th', type=float, default=0.1, help='visibility threshold for output 2D lanes')
     parser.add_argument('--loss_att_weight', type=float, default=100.0, help='2D lane losses weight w.r.t. 3D lane losses')
     # General model settings
-    parser.add_argument('--batch_size', type=int, default=2, help='batch size')
+    parser.add_argument('--batch_size', type=int, default=4, help='batch size')
     parser.add_argument('--nepochs', type=int, default=10, help='total numbers of epochs')
     parser.add_argument('--learning_rate', type=float, default=2e-4, help='learning rate')
     parser.add_argument('--no_cuda', action='store_true', help='if gpu available')
@@ -302,7 +302,7 @@ class Visualizer:
                     plt.plot(x_2d, y_2d, 'white', lw=2, alpha=0.5)
 
         lane_anchor = gt_anchors
-        img = img * 255  
+        img = img * 255
         img_bgr = np.ones(img.shape)
         img_bgr[:,:,0] = img[:,:,2]
         img_bgr[:,:,1] = img[:,:,1]
@@ -322,23 +322,23 @@ class Visualizer:
                     #     anchor_x_2d, _ = homographic_transformation(P_g2im, self.anchor_x_steps[j], self.anchor_y_steps)
                 else:
                     z_3d = lane_anchor[j, self.num_y_steps:2*self.num_y_steps]
-                    # x_2d, y_2d = projective_transformation(P_g2im, x_3d, self.anchor_y_steps, z_3d)
-                    x_2d, y_2d = projective_transformation_new(KR, Kt, x_3d, self.anchor_y_steps, z_3d)
-                    x_2d = x_2d / 1920 * 480
-                    y_2d = y_2d / 1080 * 360
+                    x_2d, y_2d = projective_transformation(P_g2im, x_3d, self.anchor_y_steps, z_3d)
+                    # x_2d, y_2d = projective_transformation_new(KR, Kt, x_3d, self.anchor_y_steps, z_3d)
+                    # x_2d = x_2d / 1920 * 480
+                    # y_2d = y_2d / 1080 * 360
                 visibility = lane_anchor[j, 2 * self.num_y_steps:3 * self.num_y_steps]
                 # if not self.use_default_anchor:
                     # anchor_x_2d = anchor_x_2d.astype(np.int)
                 x_2d = [int(x) for i, x in enumerate(x_2d) if visibility[i] > self.prob_th]
                 y_2d = [int(y) for i, y in enumerate(y_2d) if visibility[i] > self.prob_th]
-                for i in range(len(x_2d)-1):
-                    cv2.circle(img_bgr, (x_2d[i], y_2d[i]), 1, (255,255,255), -1)
-                    cv2.circle(img_bgr, (x_2d[i + 1], y_2d[i + 1]), 1, (255,255,255), -1)
-                    cv2.line(img_bgr, (x_2d[i], y_2d[i]), (x_2d[i + 1], y_2d[i + 1]), (0,0,255), 1)
+                # for i in range(len(x_2d)-1):
+                #     cv2.circle(img_bgr, (x_2d[i], y_2d[i]), 1, (255,255,255), -1)
+                #     cv2.circle(img_bgr, (x_2d[i + 1], y_2d[i + 1]), 1, (255,255,255), -1)
+                #     cv2.line(img_bgr, (x_2d[i], y_2d[i]), (x_2d[i + 1], y_2d[i + 1]), (0,0,255), 1)
 
 
-                # plt.plot(x_2d, y_2d, 'yellowgreen', lw=2, alpha=0.7)
-                # plt.plot(x_2d, y_2d, 'white', lw=1, alpha=0.5)
+                plt.plot(x_2d, y_2d, 'yellowgreen', lw=2, alpha=0.7)
+                plt.plot(x_2d, y_2d, 'white', lw=1, alpha=0.5)
 
                 line_gt["x_2d"] = x_2d
                 line_gt["y_2d"] = y_2d
@@ -739,7 +739,7 @@ class Visualizer:
                                                                                              img_name[i])
                 mkdir_if_missing(os.path.dirname(filename))
                 fig.savefig(filename)
-            cv2.imwrite(f"/mnt/ve_perception/likaiying/opendataset/sandbox/PersFormer_3DLane_main/haomodata/%s.jpg"%(img_name[i]), img)
+            # cv2.imwrite(f"/mnt/ve_perception/likaiying/opendataset/sandbox/PersFormer_3DLane_main/haomodata/%s.jpg"%(img_name[i]), img)
             plt.clf()
             plt.close(fig)
             plt.close(fig2)

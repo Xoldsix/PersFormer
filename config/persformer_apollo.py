@@ -43,8 +43,8 @@ def config(args):
     args.evaluate_case = False   # -------------------------------------------- False
 
     # settings for save and visualize
-    args.print_freq = 50
-    args.save_freq = 3   # ---------------------------------------50
+    args.print_freq = 600
+    args.save_freq = 600   # ---------------------------------------50
 
     # data loader
     args.nworkers = 4
